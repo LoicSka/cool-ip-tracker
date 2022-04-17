@@ -1,2 +1,2 @@
-# cool-ip-tracker
+# vue-ip-tracker
 Created with CodeSandbox
