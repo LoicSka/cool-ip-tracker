@@ -1,5 +1,5 @@
 <template>
-  <button
+  <div
     @click="onModeSwitch"
     class="toggle-switch"
     :class="{ 'toggle-switch--dark': isDarkModeEnabled }"
@@ -65,7 +65,7 @@
         />
       </svg>
     </div>
-  </button>
+  </div>
 </template>
 
 <script>
@@ -89,6 +89,10 @@ export default {
   transform: scale(1.1);
   transition: transform 0.2s ease-in;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .toggle-switch svg {
   height: 16px;

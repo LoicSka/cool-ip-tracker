@@ -73,11 +73,13 @@ export default {
       return !isEmpty(this.pinLocation);
     },
     currentLocation: function () {
+      const { ip = "", country_name = "", city = "", state_prov = "" } =
+        this.pinLocation || {};
       return {
-        city: this.pinLocation?.city,
-        country: this.pinLocation?.country_name,
-        stateProvince: this.pinLocation?.state_prov,
-        ip: this.pinLocation?.ip,
+        ip,
+        city,
+        country: country_name,
+        stateProvince: state_prov,
       };
     },
   },
