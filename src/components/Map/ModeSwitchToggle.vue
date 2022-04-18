@@ -79,24 +79,16 @@ export default {
 
 <style scoped>
 .toggle-switch {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
-  min-height: 38px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0px 0px 16px -4px rgba(0, 0, 0, 0.25);
-  border: 1px solid white;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   outline: none;
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  z-index: 10;
   border: none;
   cursor: pointer;
   transform: scale(1.1);
   transition: transform 0.2s ease-in;
-  display: none;
+  background: transparent;
 }
 .toggle-switch svg {
   height: 16px;
@@ -113,16 +105,6 @@ export default {
 toggle-switch:active svg {
   transform: scale(1);
 }
-.toggle-switch--dark {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(3px);
-  border: 1px solid rgba(74, 78, 83, 0.5);
-  box-shadow: none;
-}
-.toggle-switch:hover,
-.toggle-switch:hover {
-  outline: none;
-}
 .icon-wrap {
   display: flex;
   flex-direction: column;
@@ -136,7 +118,23 @@ toggle-switch:active svg {
 }
 @media (min-width: 640px) {
   .toggle-switch {
-    display: block;
+    border-radius: 50%;
+    background: white;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    box-shadow: 0px 0px 16px -4px rgba(0, 0, 0, 0.25);
+    border: 1px solid white;
+  }
+  .toggle-switch--dark {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(74, 78, 83, 0.5);
+    box-shadow: none;
+  }
+  .toggle-switch:hover {
+    outline: none;
   }
 }
 </style>

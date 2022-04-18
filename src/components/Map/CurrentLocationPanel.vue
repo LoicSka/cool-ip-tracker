@@ -11,7 +11,27 @@
         'location-panel--dark': isDarkModeEnabled,
       }"
     >
-      here
+      <div class="location-panel__inner">
+        <div class="inner-header">
+          <span class="location-panel__title-text">Address location</span>
+        </div>
+        <div class="inner-text-wrap">
+          <div class="label-text">Address</div>
+          <div class="value-text">{{ ip }}</div>
+        </div>
+        <div class="inner-text-wrap">
+          <div class="label-text">City</div>
+          <div class="value-text">{{ city }}</div>
+        </div>
+        <div class="inner-text-wrap">
+          <div class="label-text">Country</div>
+          <div class="value-text">{{ country }}</div>
+        </div>
+        <div class="inner-text-wrap">
+          <div class="label-text">State/Province</div>
+          <div class="value-text">{{ stateProvince }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,9 +52,9 @@ export default {
 <style scoped>
 .location-panel-wrap {
   width: 100%;
-  height: 150px;
+  height: 195px;
   min-width: 100%;
-  min-height: 150px;
+  min-height: 195px;
   /* background: white; */
   position: absolute;
   bottom: 20px;
@@ -44,7 +64,7 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 0;
-  transition: transform 0.2s ease-in;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1s;
   transform: translateY(400px);
 }
 .location-panel {
@@ -58,9 +78,16 @@ export default {
   outline: none;
   border: none;
 }
+.location-panel__inner {
+  padding: 15px 20px;
+}
+.inner-header {
+  margin-bottom: 5px;
+}
 .location-panel__title-text {
-  font-size: 1rem;
-  color: white;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #1B2533;
 }
 .location-panel--dark {
   background: rgba(255, 255, 255, 0.1);
@@ -71,10 +98,38 @@ export default {
 .location-panel--visible {
   transform: translateY(0);
 }
+.inner-text-wrap {
+  width: calc(100% - 10px);
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.label-text {
+  color: #414F64;
+}
+.value-text {
+  color: #1B2533;
+}
+.location-panel--dark .location-panel__title-text,
+.location-panel--dark .value-text {
+  color: white;
+}
+.location-panel--dark .label-text {
+  color: white;
+}
+
+.location-panel--dark .inner-text-wrap {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.inner-text-wrap:last-child {
+  border-bottom: none;
+}
 @media (min-width: 640px) {
   .location-panel-wrap {
-    width: 230px;
-    min-width: 230px;
+    width: 360px;
+    min-width: 360px;
     padding: 0 30px;
   }
 }
