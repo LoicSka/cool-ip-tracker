@@ -19,7 +19,12 @@
       @load="onMapLoaded"
     >
       <MglMarker :coordinates="coordinates" color="#0C66EF">
-        <MglPopup :offset="20" :coordinates="coordinates" anchor="bottom">
+        <MglPopup
+          :showed="isLocationPanelVisible"
+          :offset="20"
+          :coordinates="coordinates"
+          anchor="bottom"
+        >
           <div>{{ currentLocation.city + ", " + currentLocation.country }}</div>
         </MglPopup>
       </MglMarker>
@@ -93,7 +98,6 @@ export default {
     handleSetLocationData: async function ({ longitude, latitude, ...data }) {
       this.coordinates = [longitude, latitude];
       this.pinLocation = { longitude, latitude, ...data };
-      console.log({ he: this.pinLocation });
       if (this.flyTo) {
         await this.flyTo({
           center: [longitude, latitude],
