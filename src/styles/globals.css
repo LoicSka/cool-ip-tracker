@@ -1,3 +1,42 @@
 body {
-  background: #3D4144;
+  background: #3d4144;
+}
+
+.sp {
+  width: 20px;
+  height: 20px;
+  clear: both;
+}
+
+.sp-circle {
+  border: 2px rgba(0, 0, 0, 0.05) solid;
+  border-top: 2px rgb(201, 201, 201) solid;
+  border-radius: 50%;
+  -webkit-animation: spCircRot 0.6s infinite linear;
+  animation: spCircRot 0.6s infinite linear;
+}
+
+.anim-rotate {
+  -webkit-animation: spCircRot 0.6s infinite linear;
+  animation: spCircRot 0.6s infinite linear;
+}
+
+@-webkit-keyframes spCircRot {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@keyframes spCircRot {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
 }

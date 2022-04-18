@@ -2,7 +2,7 @@
   <div class="map-wrap">
     <IPForm
       :isDarkModeEnabled="isDarkModeEnabled"
-      :onSetPinCoordinates="handleSetNewPinCoordinates"
+      :onSetLocationData="handleSetLocationData"
     />
     <ModeSwitchToggle
       :onModeSwitch="handleModeSwitch"
@@ -15,15 +15,25 @@
       :mapStyle="mapStyle"
       @load="onMapLoaded"
     >
-      <MglMarker :coordinates="coordinates" color="#0C66EF" />
+      <MglMarker :coordinates="coordinates" color="#0C66EF">
+        <!-- <MglPopup
+          :offset="20"
+          :coordinates="coordinates"
+          anchor="bottom"
+        >
+          <div>{{pinLocation.city}}</div>
+        </MglPopup> -->
+      </MglMarker>
     </MglMap>
+    <CurrentLocationPanel :isDarkModeEnabled="isDarkModeEnabled" />
   </div>
 </template>
 
 <script>
 import Mapbox from "mapbox-gl";
-import { MglMap, MglMarker } from "vue-mapbox";
+import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 import ModeSwitchToggle from "./ModeSwitchToggle";
+import CurrentLocationPanel from "./CurrentLocationPanel";
 import IPForm from "../IPForm";
 
 export default {
@@ -32,6 +42,8 @@ export default {
     ModeSwitchToggle,
     IPForm,
     MglMarker,
+    MglPopup,
+    CurrentLocationPanel,
   },
   data() {
     return {
@@ -39,6 +51,7 @@ export default {
         "pk.eyJ1Ijoic2h4YWthIiwiYSI6ImNsMjBsYjN4bTB4aXYzYm1remJwYnh5bmkifQ.zoPS3LvQGuVOB9jNe4d2hg",
       isDarkModeEnabled: true,
       coordinates: [-2.24, 53.48],
+      pinLocation: null,
       zoom: 15,
       flyTo: null,
     };
@@ -52,29 +65,35 @@ export default {
   },
   created() {
     this.mapbox = Mapbox;
-    console.log({ MglMap: Mapbox });
   },
   methods: {
     handleModeSwitch: function () {
       this.isDarkModeEnabled = !this.isDarkModeEnabled;
     },
-    handleSetNewPinCoordinates: async function (long, lat) {
-      // GlMap.actions.zoomTo(5, {duration: 2000})
-      console.log("FLY", this.flyTo);
-      this.coordinates = [long, lat];
+    handleSetLocationData: async function ({ longitude, latitude, ...data }) {
+      this.coordinates = [longitude, latitude];
+      this.pinLocation = { longitude, latitude, ...data };
       if (this.flyTo) {
         await this.flyTo({
-          center: [long, lat],
+          center: [longitude, latitude],
           zoom: 9,
-          speed: 1,
+          speed: 10,
         });
       }
     },
-    async onMapLoaded(event) {
-      // in component
-      // this.map = event.map;
-      console.log("THEMAP", event.component.actions);
+    onMapLoaded: async function (event) {
       this.flyTo = event.component.actions.flyTo;
+      await this.flyTo({
+        center: this.coordinates,
+        zoom: 9,
+        speed: 10,
+      });
+    },
+    setPinLocationData: async function (locationData) {
+      this.pinLocation = locationData;
+    },
+    setCurrentLocationData: async function (locationData) {
+      this.currentLocation = locationData;
     },
   },
 };
@@ -89,6 +108,5 @@ export default {
 #map {
   height: 100vh;
   width: 100vw;
-  background: red;
 }
 </style>

@@ -18,6 +18,9 @@
           v-model="address"
           placeholder="Enter an IP address"
         />
+        <div class="icon-wrap">
+          <div v-if="isLoading" class="sp sp-circle"></div>
+        </div>
       </div>
       <div class="error-msg" :class="{ 'error-msg--expanded': hasError }">
         <div class="error-msg__text-wrap">
@@ -32,14 +35,17 @@
 import { getGeolocationData } from "../../services/ipgeolocation";
 import isEmpty from "lodash/isEmpty";
 
+// Unfortunately this is Paying feature
+// validHostnameRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/
+
 const validIpAddressRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
-  validHostnameRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/,
   classCAddressRegex = /(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)/;
 
 export default {
   props: {
     isDarkModeEnabled: Boolean,
     onSetPinCoordinates: Function,
+    onSetLocationData: Function,
   },
   data() {
     return {
@@ -50,9 +56,6 @@ export default {
     };
   },
   methods: {
-    isValidHostname: function (address) {
-      return validHostnameRegex.test(address);
-    },
     isValidAddress: function (address) {
       return validIpAddressRegex.test(address);
     },
@@ -72,25 +75,27 @@ export default {
       } else {
         if (!!this.errorText) {
           this.errorText = null;
-          this.submitedValue = null;
         }
       }
       return true;
     },
     handleIPSearch: async function () {
       if (this.isFormValid()) {
-        const {
-          latitude,
-          longitude,
-        } = await getGeolocationData(this.address);
-        this.onSetPinCoordinates(longitude, latitude);
+        try {
+          const data = await getGeolocationData(this.address);
+          console.log({ ...data });
+          this.onSetLocationData(data);
+          this.isLoading = false;
+        } catch (error) {
+          this.errorText = "We failed to retrieve address/domain data";
+        }
       }
     },
   },
   created: async function () {
     const { ip } = await getGeolocationData();
     this.address = ip;
-    this.handleIPSearch()
+    this.handleIPSearch();
   },
   computed: {
     hasError: function () {
