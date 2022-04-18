@@ -84,7 +84,7 @@ export default {
       } else if (this.isPrivateAddress(this.address)) {
         this.errorText = "Address provided is private/class C";
       } else {
-        if (!!this.errorText) {
+        if (!isEmpty(this.errorText)) {
           this.errorText = null;
         }
       }
