@@ -25,7 +25,10 @@
         </MglPopup> -->
       </MglMarker>
     </MglMap>
-    <CurrentLocationPanel :isDarkModeEnabled="isDarkModeEnabled" />
+    <CurrentLocationPanel
+      :isDarkModeEnabled="isDarkModeEnabled"
+      :isVisible="isLocationPanelVisible"
+    />
   </div>
 </template>
 
@@ -35,6 +38,7 @@ import { MglMap, MglMarker, MglPopup } from "vue-mapbox";
 import ModeSwitchToggle from "./ModeSwitchToggle";
 import CurrentLocationPanel from "./CurrentLocationPanel";
 import IPForm from "../IPForm";
+import isEmpty from "lodash/isEmpty";
 
 export default {
   components: {
@@ -62,6 +66,9 @@ export default {
         ? "mapbox://styles/mapbox/dark-v10"
         : "mapbox://styles/mapbox/streets-v11";
     },
+    isLocationPanelVisible: function () {
+      return !isEmpty(this.pinLocation);
+    },
   },
   created() {
     this.mapbox = Mapbox;
@@ -73,6 +80,7 @@ export default {
     handleSetLocationData: async function ({ longitude, latitude, ...data }) {
       this.coordinates = [longitude, latitude];
       this.pinLocation = { longitude, latitude, ...data };
+      console.log({ he: this.pinLocation });
       if (this.flyTo) {
         await this.flyTo({
           center: [longitude, latitude],

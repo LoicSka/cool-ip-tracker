@@ -117,7 +117,7 @@ export default {
   align-items: center;
 }
 .ip-form {
-  width: 100%;
+  width: calc(100% - 40px);
   max-width: 400px;
   background: white;
   box-shadow: 0px 0px 16px -4px rgba(0, 0, 0, 0.25);
@@ -185,5 +185,10 @@ export default {
   min-width: 20px;
   height: 20px;
   padding: 0 15px;
+}
+@media (min-width: 640px) {
+  .ip-form {
+    width: 400px;
+  }
 }
 </style>

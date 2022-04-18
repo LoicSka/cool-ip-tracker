@@ -96,6 +96,7 @@ export default {
   cursor: pointer;
   transform: scale(1.1);
   transition: transform 0.2s ease-in;
+  display: none;
 }
 .toggle-switch svg {
   height: 16px;
@@ -132,5 +133,10 @@ toggle-switch:active svg {
 }
 .toggle-switch--dark .icon-wrap--rotated {
   transform: rotate(90deg);
+}
+@media (min-width: 640px) {
+  .toggle-switch {
+    display: block;
+  }
 }
 </style>
